@@ -31,3 +31,4 @@ terraform/lambda_visits.zip
 
 # documentos de trabajo privados (no se suben)
 .docs/
+terraform/tfplan

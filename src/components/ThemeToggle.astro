@@ -11,21 +11,9 @@
 </button>
 
 <script>
+  // El tema inicial lo aplica el script inline del <head> (Layout.astro).
   const toggle = document.getElementById('theme-toggle');
   const html = document.documentElement;
-
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'light') {
-    html.classList.remove('dark');
-  } else if (savedTheme === 'dark') {
-    html.classList.add('dark');
-  } else {
-    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-      html.classList.remove('dark');
-    } else {
-      html.classList.add('dark');
-    }
-  }
 
   toggle?.addEventListener('click', () => {
     html.classList.toggle('dark');

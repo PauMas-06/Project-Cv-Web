@@ -80,7 +80,7 @@ export const projects: Project[] = [
       'Cloudflare',
       'Astro',
     ],
-    repoUrl: '',
+    repoUrl: 'https://github.com/PauMas-06/Project-Cv-Web',
     repoLabel: {
       es: 'Ver repositorio',
       en: 'View repository',

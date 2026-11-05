@@ -3,6 +3,7 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import { getLangFromUrl } from '../i18n/utils';
 import { ui } from '../i18n/ui';
+import '@fontsource-variable/inter';
 import '../styles/global.css';
 
 interface Props {
@@ -16,6 +17,7 @@ const { title = ui[lang].meta.title, description = ui[lang].meta.description } =
 const siteUrl = 'https://paumassales.dev';
 const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
 const locales = ['es', 'en', 'ca'];
+const skipLabel = { es: 'Saltar al contenido', en: 'Skip to content', ca: 'Salta al contingut' }[lang];
 
 const personSchema = JSON.stringify({
   "@context": "https://schema.org",
@@ -80,18 +82,13 @@ const personSchema = JSON.stringify({
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
     <script type="application/ld+json" set:html={personSchema} />
 
+    <!-- Inline y en el head para aplicar el tema antes de pintar la página (evita el parpadeo). -->
     <script is:inline>
-      const theme = localStorage.getItem('theme');
-      if (theme === 'light') document.documentElement.classList.remove('dark');
+      const saved = localStorage.getItem('theme');
+      const light = saved ? saved === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.classList.toggle('dark', !light);
     </script>
   </head>
   <body class="min-h-screen bg-bg-primary text-text-primary">
@@ -99,7 +96,7 @@ const personSchema = JSON.stringify({
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-accent-primary focus:px-4 focus:py-2 focus:text-white"
     >
-      Skip to content
+      {skipLabel}
     </a>
 
     <Header />

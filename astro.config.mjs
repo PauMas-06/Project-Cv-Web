@@ -13,7 +13,12 @@ export default defineConfig({
       prefixDefaultLocale: true
     }
   },
-  integrations: [sitemap({ filter: (page) => !page.includes('/cv-print') })],
+  // Fuera del sitemap: la raíz (solo redirige al idioma) y las páginas de impresión del CV.
+  integrations: [
+    sitemap({
+      filter: (page) => page !== 'https://paumassales.dev/' && !page.includes('/cv-print'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()]
   }

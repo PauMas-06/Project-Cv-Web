@@ -2,10 +2,16 @@ name: Deploy to AWS
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
+# Mínimo privilegio: por defecto solo lectura; el permiso para pedir credenciales a AWS va solo en "deploy".
 permissions:
-  id-token: write
   contents: read
+
+# Si llegan dos pushes seguidos, el segundo espera a que acabe el primero (nunca dos despliegues a la vez).
+concurrency:
+  group: deploy
+  cancel-in-progress: false
 
 env:
   AWS_REGION: eu-west-1
@@ -33,6 +39,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/download-artifact@v4
         with:

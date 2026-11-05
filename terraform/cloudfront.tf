@@ -7,7 +7,8 @@ resource "aws_cloudfront_origin_access_control" "s3" {
 
 # Se ejecuta en cada petición antes de llegar a S3:
 #  - www.dominio  -> 301 a dominio
-#  - /            -> 301 a /es/, /en/ o /ca/ según el idioma del navegador
+#  - /            -> 302 a /es/, /en/ o /ca/ según el idioma del navegador (302: si fuera 301 el navegador
+#                    lo guardaría para siempre y no respetaría un cambio de idioma)
 #  - /es/cv/      -> /es/cv/index.html (S3 vía OAC no resuelve index.html en subcarpetas)
 resource "aws_cloudfront_function" "rewrite" {
   name    = "${var.project_name}-rewrite"
@@ -20,7 +21,7 @@ resource "aws_cloudfront_function" "rewrite" {
       var uri = request.uri;
 
       if (host.indexOf('www.') === 0) {
-        return redirect('https://' + host.substring(4) + uri);
+        return redirect(301, 'https://' + host.substring(4) + uri);
       }
 
       if (uri === '/') {
@@ -28,7 +29,7 @@ resource "aws_cloudfront_function" "rewrite" {
         var lang = 'es';
         if (accept.indexOf('ca') === 0) lang = 'ca';
         else if (accept.indexOf('en') === 0) lang = 'en';
-        return redirect('/' + lang + '/');
+        return redirect(302, '/' + lang + '/');
       }
 
       if (uri.endsWith('/')) {
@@ -40,10 +41,10 @@ resource "aws_cloudfront_function" "rewrite" {
       return request;
     }
 
-    function redirect(location) {
+    function redirect(status, location) {
       return {
-        statusCode: 301,
-        statusDescription: 'Moved Permanently',
+        statusCode: status,
+        statusDescription: status === 301 ? 'Moved Permanently' : 'Found',
         headers: { location: { value: location } }
       };
     }
@@ -80,8 +81,8 @@ resource "aws_cloudfront_response_headers_policy" "security" {
       content_security_policy = join("; ", [
         "default-src 'self'",
         "script-src 'self' 'unsafe-inline'",
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-        "font-src 'self' https://fonts.gstatic.com",
+        "style-src 'self' 'unsafe-inline'",
+        "font-src 'self'",
         "img-src 'self' data: https:",
         "frame-ancestors 'self'",
       ])

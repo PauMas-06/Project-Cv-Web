@@ -2,12 +2,14 @@
 
 ## Requisitos previos
 
-1. Cuenta AWS personal con un usuario administrador y MFA. En la terminal: `export AWS_PROFILE=pmas-sal`
-   y comprobar con `aws sts get-caller-identity`.
+1. Cuenta AWS personal con un usuario administrador y MFA, configurado en la AWS CLI (perfil por
+   defecto, o el que indiques con `AWS_PROFILE`). Comprobar con `aws sts get-caller-identity`.
 2. Dominio `paumassales.dev` comprado en **Cloudflare**. Cloudflare Registrar obliga a usar sus
    nameservers, así que el DNS se queda en Cloudflare (no se usa Route 53).
 3. Un **API token de Cloudflare** limitado: My Profile → API Tokens → Create Token → plantilla
-   "Edit zone DNS" → solo para la zona `paumassales.dev`. Se pasa por entorno, nunca en un fichero:
+   "Edit zone DNS" (incluye leer la zona y editar sus registros) → solo para la zona `paumassales.dev`.
+   Antes del primer `apply`, la zona no debe tener ya registros A/AAAA/CNAME para el dominio ni para `www`.
+   Se pasa por entorno, nunca en un fichero:
    `export CLOUDFLARE_API_TOKEN=...`
 4. Terraform >= 1.10.
 

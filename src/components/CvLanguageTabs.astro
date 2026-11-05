@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { lang: defaultLang = 'es' } = Astro.props;
+const openLabel = { es: 'Abrir en nueva pestaña', en: 'Open in new tab', ca: 'Obrir en una pestanya nova' }[defaultLang];
 ---
 
 <div class="bg-bg-secondary rounded-2xl border border-border overflow-hidden shadow-2xl mb-16" data-cv-viewer>
@@ -23,7 +24,7 @@ const { lang: defaultLang = 'es' } = Astro.props;
       <span class="text-sm text-text-secondary font-mono" data-cv-filename>{`cv-${defaultLang}.pdf`}</span>
     </div>
     <a href={`/cv-${defaultLang}.pdf`} target="_blank" class="text-sm text-accent-primary hover:underline" data-cv-open>
-      Abrir en nueva pestaña →
+      {openLabel} →
     </a>
   </div>
 
