@@ -1,0 +1,31 @@
+---
+interface Props {
+  icon: string;
+  tone: 'slate' | 'orange' | 'purple' | 'green' | 'pink' | 'blue';
+  title: string;
+  subtitle: string;
+}
+
+const { icon, tone, title, subtitle } = Astro.props;
+
+const toneClass: Record<Props['tone'], string> = {
+  slate: 'bg-slate-500/15 text-slate-500',
+  orange: 'bg-orange-500/15 text-orange-500',
+  purple: 'bg-purple-500/15 text-purple-500',
+  green: 'bg-green-500/15 text-green-500',
+  pink: 'bg-pink-500/15 text-pink-500',
+  blue: 'bg-blue-500/15 text-blue-500',
+};
+---
+
+<div class="flex items-center gap-3 rounded-xl border border-border bg-bg-secondary px-3 py-2.5 shadow-sm">
+  <div class={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${toneClass[tone]}`}>
+    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d={icon}></path>
+    </svg>
+  </div>
+  <div class="min-w-0">
+    <p class="text-sm font-semibold leading-tight text-text-primary">{title}</p>
+    <p class="mt-0.5 text-xs leading-snug text-text-secondary">{subtitle}</p>
+  </div>
+</div>

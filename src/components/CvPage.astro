@@ -1,0 +1,137 @@
+---
+import DownloadCV from './DownloadCV.astro';
+import SkillBadge from './SkillBadge.astro';
+import CvLanguageTabs from './CvLanguageTabs.astro';
+import { cv } from '../data/cv';
+import type { Locale } from '../data/projects';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const data = cv[lang];
+const { labels } = data;
+const skillGroups = data.skills
+  .map((g) => ({ label: g.label, items: [...g.items, ...(g.webItems ?? [])] }))
+  .filter((g) => g.items.length > 0);
+---
+
+<div class="mx-auto max-w-6xl px-4 py-12">
+  <div class="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+    <div>
+      <h1 class="mb-2 text-4xl font-bold">{data.page.title}</h1>
+      <p class="text-text-secondary">{data.page.lead}</p>
+    </div>
+    <DownloadCV lang={lang} />
+  </div>
+
+  <CvLanguageTabs lang={lang} />
+
+  <section class="mb-16">
+    <h2 class="mb-6 text-3xl font-bold">{labels.profile}</h2>
+    <div class="max-w-3xl space-y-4 leading-relaxed text-text-secondary">
+      {data.about.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="mb-8 text-3xl font-bold">{labels.experience}</h2>
+    <div class="space-y-8">
+      {data.experience.map((job, i) => (
+        <div class:list={['border-l-2 pl-6', i === 0 ? 'border-accent-primary' : 'border-border']}>
+          <div class="mb-2 flex flex-col md:flex-row md:items-baseline md:justify-between">
+            <h3 class="text-xl font-semibold">{job.title}</h3>
+            <span class="text-sm text-text-secondary">{job.period}</span>
+          </div>
+          {job.place && <p class="mb-3 font-medium text-accent-secondary">{job.place}</p>}
+          {job.intro && <p class="mb-3 max-w-3xl text-sm leading-relaxed text-text-secondary">{job.intro}</p>}
+          {(job.webBullets ?? job.bullets) && (
+            <ul class="list-inside list-disc space-y-2 text-sm text-text-secondary">
+              {(job.webBullets ?? job.bullets ?? []).map((b) => <li>{b}</li>)}
+            </ul>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="mb-8 text-3xl font-bold">{labels.education}</h2>
+    <div class="space-y-4">
+      {data.education.map((study) => (
+        <div class="rounded-lg border border-border bg-bg-secondary p-4">
+          <div class="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
+            <div>
+              <h3 class="font-medium">{study.title}</h3>
+              {study.place && <p class="text-sm text-text-secondary">{study.place}</p>}
+            </div>
+            <span class="text-sm text-text-secondary">
+              {study.period}{study.detail && ` · ${study.detail}`}
+            </span>
+          </div>
+          {study.description && (
+            <p class="mt-3 max-w-3xl text-sm leading-relaxed text-text-secondary">{study.description}</p>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="mb-8 text-3xl font-bold">{labels.skills}</h2>
+    <div class="space-y-6">
+      {skillGroups.map((group) => (
+        <div>
+          <h3 class="mb-3 text-lg font-medium">{group.label}</h3>
+          <div class="flex flex-wrap gap-2">
+            {group.items.map((item) => <SkillBadge skill={item} />)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="mb-8 text-3xl font-bold">{labels.certifications}</h2>
+    <div class="space-y-4">
+      {data.certifications.map((c) => (
+        <div class="flex items-center gap-4 rounded-lg border border-border bg-bg-secondary p-4">
+          <span class="text-2xl">{c.icon}</span>
+          <div>
+            <h3 class="font-medium">{c.title}</h3>
+            <p class="text-sm text-text-secondary">{c.detail}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="mb-8 text-3xl font-bold">{labels.awards}</h2>
+    <div class="space-y-4">
+      {data.awards.map((a) => (
+        <div class="flex items-start gap-4 rounded-lg border border-border bg-bg-secondary p-4">
+          <span class="text-2xl">{a.icon}</span>
+          <div>
+            <h3 class="font-medium">{a.title}</h3>
+            <p class="text-sm text-text-secondary">{a.detail}</p>
+            {a.description && <p class="mt-2 max-w-3xl text-sm leading-relaxed text-text-secondary">{a.description}</p>}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2 class="mb-8 text-3xl font-bold">{labels.languages}</h2>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      {data.languages.map((l) => (
+        <div class="rounded-lg border border-border bg-bg-secondary p-4">
+          <h3 class="mb-1 font-medium">{l.name}</h3>
+          <p class="text-sm text-text-secondary">{l.level}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</div>

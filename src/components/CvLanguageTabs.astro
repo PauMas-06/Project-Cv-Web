@@ -1,0 +1,101 @@
+---
+const tabs = [
+  { code: 'es', label: 'Español', pdf: '/cv-es.pdf' },
+  { code: 'en', label: 'English', pdf: '/cv-en.pdf' },
+  { code: 'ca', label: 'Català', pdf: '/cv-ca.pdf' },
+];
+
+interface Props {
+  lang?: 'es' | 'en' | 'ca';
+}
+
+const { lang: defaultLang = 'es' } = Astro.props;
+---
+
+<div class="bg-bg-secondary rounded-2xl border border-border overflow-hidden shadow-2xl mb-16" data-cv-viewer>
+  <div class="bg-bg-primary border-b border-border px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="flex gap-1.5">
+        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+      </div>
+      <span class="text-sm text-text-secondary font-mono" data-cv-filename>{`cv-${defaultLang}.pdf`}</span>
+    </div>
+    <a href={`/cv-${defaultLang}.pdf`} target="_blank" class="text-sm text-accent-primary hover:underline" data-cv-open>
+      Abrir en nueva pestaña →
+    </a>
+  </div>
+
+  <div class="flex gap-1 px-4 pt-3 bg-bg-primary border-b border-border">
+    {tabs.map((tab) => (
+      <button
+        data-cv-tab={tab.code}
+        data-pdf={tab.pdf}
+        class:list={[
+          'px-4 py-2 text-sm font-medium rounded-t-lg transition-colors',
+          tab.code === defaultLang
+            ? 'bg-bg-secondary text-accent-primary border border-border border-b-transparent -mb-px'
+            : 'text-text-secondary hover:text-text-primary',
+        ]}
+      >
+        {tab.label}
+      </button>
+    ))}
+  </div>
+
+  <div class="relative bg-gradient-to-br from-bg-secondary to-bg-primary" style="height: 85vh; min-height: 600px;">
+    {tabs.map((tab) => (
+      <embed
+        data-cv-embed={tab.code}
+        src={tab.pdf}
+        type="application/pdf"
+        title={`Currículum de Pau Mas Sales - ${tab.label}`}
+        class:list={[
+          'w-full h-full',
+          tab.code === defaultLang ? '' : 'hidden',
+        ]}
+      />
+    ))}
+  </div>
+</div>
+
+<script>
+  function initCvViewer() {
+    const viewer = document.querySelector('[data-cv-viewer]');
+    if (!viewer) return;
+
+    const tabs = viewer.querySelectorAll<HTMLButtonElement>('[data-cv-tab]');
+    const embeds = viewer.querySelectorAll<HTMLEmbedElement>('[data-cv-embed]');
+    const filenameEl = viewer.querySelector('[data-cv-filename]');
+    const openLink = viewer.querySelector<HTMLAnchorElement>('[data-cv-open]');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const code = tab.dataset.cvTab!;
+        const pdf = tab.dataset.pdf!;
+
+        tabs.forEach((t) => {
+          t.classList.remove('bg-bg-secondary', 'text-accent-primary', 'border', 'border-border', 'border-b-transparent', '-mb-px');
+          t.classList.add('text-text-secondary');
+        });
+        tab.classList.add('bg-bg-secondary', 'text-accent-primary', 'border', 'border-border', 'border-b-transparent', '-mb-px');
+        tab.classList.remove('text-text-secondary');
+
+        embeds.forEach((e) => {
+          if (e.dataset.cvEmbed === code) {
+            e.classList.remove('hidden');
+          } else {
+            e.classList.add('hidden');
+          }
+        });
+
+        if (filenameEl) filenameEl.textContent = pdf.split('/').pop() ?? '';
+        if (openLink) openLink.href = pdf;
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initCvViewer);
+  initCvViewer();
+</script>

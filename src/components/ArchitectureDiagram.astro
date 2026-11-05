@@ -1,0 +1,122 @@
+---
+import ArchNode from './ArchNode.astro';
+import ArchArrow from './ArchArrow.astro';
+import type { Locale } from '../data/projects';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+const icons = {
+  browser: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+  dns: 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01',
+  cdn: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+  bucket: 'M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4',
+  gateway: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
+  lambda: 'M13 10V3L4 14h7v7l9-11h-7z',
+  database: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4',
+  pipeline: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
+  cube: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
+};
+
+const text = {
+  es: {
+    title: 'Arquitectura',
+    visitor: ['Visitante', 'Abre paumassales.dev en el navegador'],
+    dns: ['Cloudflare DNS', 'Resuelve el dominio hacia CloudFront'],
+    https: 'HTTPS',
+    region: 'AWS Cloud',
+    cdn: ['CloudFront', 'CDN global, certificado ACM y reglas de seguridad'],
+    web: 'Web',
+    s3: ['S3 privado', 'Guarda la web estática; solo CloudFront puede leerla'],
+    gateway: ['API Gateway', 'Recibe las llamadas a /api con límite de peticiones'],
+    lambda: ['Lambda', 'Función Node.js que cuenta la visita'],
+    dynamo: ['DynamoDB', 'Guarda el contador de visitas'],
+    deploy: 'Despliegue (OIDC)',
+    github: ['GitHub Actions', 'Compila y despliega en cada push, sin claves guardadas'],
+    legend: 'Todo el recuadro de AWS, el DNS y los permisos están definidos con Terraform.',
+  },
+  en: {
+    title: 'Architecture',
+    visitor: ['Visitor', 'Opens paumassales.dev in the browser'],
+    dns: ['Cloudflare DNS', 'Resolves the domain to CloudFront'],
+    https: 'HTTPS',
+    region: 'AWS Cloud',
+    cdn: ['CloudFront', 'Global CDN, ACM certificate and security rules'],
+    web: 'Web',
+    s3: ['Private S3', 'Stores the static site; only CloudFront can read it'],
+    gateway: ['API Gateway', 'Receives /api calls with request throttling'],
+    lambda: ['Lambda', 'Node.js function that counts the visit'],
+    dynamo: ['DynamoDB', 'Stores the visit counter'],
+    deploy: 'Deploy (OIDC)',
+    github: ['GitHub Actions', 'Builds and deploys on every push, no stored keys'],
+    legend: 'The whole AWS box, the DNS records and the permissions are defined with Terraform.',
+  },
+  ca: {
+    title: 'Arquitectura',
+    visitor: ['Visitant', 'Obre paumassales.dev al navegador'],
+    dns: ['Cloudflare DNS', 'Resol el domini cap a CloudFront'],
+    https: 'HTTPS',
+    region: 'AWS Cloud',
+    cdn: ['CloudFront', 'CDN global, certificat ACM i regles de seguretat'],
+    web: 'Web',
+    s3: ['S3 privat', 'Desa la web estàtica; només CloudFront la pot llegir'],
+    gateway: ['API Gateway', 'Rep les crides a /api amb límit de peticions'],
+    lambda: ['Lambda', 'Funció Node.js que compta la visita'],
+    dynamo: ['DynamoDB', 'Desa el comptador de visites'],
+    deploy: 'Desplegament (OIDC)',
+    github: ['GitHub Actions', 'Compila i desplega a cada push, sense claus desades'],
+    legend: "Tot el requadre d'AWS, el DNS i els permisos estan definits amb Terraform.",
+  },
+}[lang];
+---
+
+<figure class="rounded-xl border border-border bg-bg-primary/40 p-4 md:p-5">
+  <figcaption class="mb-4 text-xs font-semibold uppercase tracking-wider text-text-secondary">{text.title}</figcaption>
+
+  <div class="mx-auto max-w-sm">
+    <ArchNode icon={icons.browser} tone="slate" title={text.visitor[0]} subtitle={text.visitor[1]} />
+    <ArchArrow label={text.https} />
+    <ArchNode icon={icons.dns} tone="orange" title={text.dns[0]} subtitle={text.dns[1]} />
+    <ArchArrow />
+  </div>
+
+  <div class="relative rounded-2xl border border-dashed border-border bg-bg-secondary/40 p-4 pt-6">
+    <span class="absolute -top-3 left-4 rounded-full border border-border bg-bg-primary px-3 py-0.5 text-xs font-semibold text-text-primary">
+      {text.region}
+    </span>
+
+    <div class="mx-auto max-w-sm">
+      <ArchNode icon={icons.cdn} tone="purple" title={text.cdn[0]} subtitle={text.cdn[1]} />
+    </div>
+
+    <div class="mt-1 grid gap-3 md:mt-0 md:grid-cols-2 md:gap-x-4">
+      <div class="rounded-xl border border-border/70 bg-bg-primary/30 px-3 pb-3 md:border-0 md:bg-transparent md:px-0 md:pb-0">
+        <ArchArrow label={text.web} />
+        <ArchNode icon={icons.bucket} tone="green" title={text.s3[0]} subtitle={text.s3[1]} />
+      </div>
+      <div class="rounded-xl border border-border/70 bg-bg-primary/30 px-3 pb-3 md:border-0 md:bg-transparent md:px-0 md:pb-0">
+        <ArchArrow label="/api/*" />
+        <ArchNode icon={icons.gateway} tone="pink" title={text.gateway[0]} subtitle={text.gateway[1]} />
+        <ArchArrow />
+        <ArchNode icon={icons.lambda} tone="orange" title={text.lambda[0]} subtitle={text.lambda[1]} />
+        <ArchArrow />
+        <ArchNode icon={icons.database} tone="blue" title={text.dynamo[0]} subtitle={text.dynamo[1]} />
+      </div>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-sm">
+    <ArchArrow up label={text.deploy} />
+    <ArchNode icon={icons.pipeline} tone="slate" title={text.github[0]} subtitle={text.github[1]} />
+  </div>
+
+  <p class="mt-5 flex items-start gap-2 text-xs leading-snug text-text-secondary">
+    <svg class="mt-0.5 h-4 w-4 shrink-0 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d={icons.cube}></path>
+    </svg>
+    <span>{text.legend}</span>
+  </p>
+</figure>

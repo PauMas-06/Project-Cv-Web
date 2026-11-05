@@ -1,0 +1,125 @@
+---
+import { Image, getImage } from 'astro:assets';
+import ArchitectureDiagram from './ArchitectureDiagram.astro';
+import type { Project, Locale } from '../data/projects';
+
+interface Props {
+  project: Project;
+  lang: Locale;
+}
+
+const { project, lang } = Astro.props;
+
+const tileColor: Record<Project['color'], string> = {
+  'accent-primary': 'from-accent-primary/20 to-accent-secondary/20 text-accent-primary',
+  green: 'from-green-500/20 to-green-600/20 text-green-500',
+  orange: 'from-orange-500/20 to-orange-600/20 text-orange-500',
+  purple: 'from-purple-500/20 to-purple-600/20 text-purple-500',
+};
+
+const iconPath: Record<Project['icon'], string> = {
+  cloud: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+  code: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+  lightning: 'M13 10V3L4 14h7v7l9-11h-7z',
+};
+
+const labels = {
+  featured: { es: 'Proyecto destacado', en: 'Featured project', ca: 'Projecte destacat' },
+  defaultRepo: { es: 'Ver código', en: 'View code', ca: 'Veure codi' },
+  certificate: { es: 'Ver certificado', en: 'View certificate', ca: 'Veure certificat' },
+};
+
+const repoLabel = project.repoLabel?.[lang] ?? labels.defaultRepo[lang];
+const highlights = project.highlights?.[lang] ?? [];
+const certificateFull = project.certificate ? await getImage({ src: project.certificate.src, width: 1600 }) : null;
+
+---
+
+<article
+  class:list={[
+    'group rounded-2xl border border-border bg-bg-secondary p-6 transition-all duration-300 hover:border-accent-primary/50',
+    project.featured ? 'md:col-span-2 lg:col-span-3 md:p-8' : 'hover:-translate-y-1',
+  ]}
+>
+  <div class:list={[project.featured && 'grid gap-8 lg:grid-cols-2']}>
+    <div>
+      {project.image ? (
+        <Image
+          src={project.image.src}
+          alt={project.image.alt[lang]}
+          width={800}
+          class="mb-4 aspect-[4/3] w-full rounded-xl object-cover"
+          style={`object-position: ${project.image.position ?? 'center'}`}
+        />
+      ) : (
+        <div class={`mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br ${tileColor[project.color]}`}>
+          <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={iconPath[project.icon]}></path>
+          </svg>
+        </div>
+      )}
+
+      {project.featured && (
+        <span class="mb-3 inline-block rounded-full bg-accent-primary/15 px-3 py-1 text-xs font-medium text-accent-primary">
+          {labels.featured[lang]}
+        </span>
+      )}
+
+      <h3 class:list={['mb-2 font-bold transition-colors group-hover:text-accent-primary', project.featured ? 'text-3xl' : 'text-xl']}>
+        {project.title[lang]}
+      </h3>
+
+      <p class="mb-4 text-sm leading-relaxed text-text-secondary">
+        {project.description[lang]}
+      </p>
+
+      {highlights.length > 0 && (
+        <ul class="mb-5 space-y-2 text-sm leading-relaxed text-text-secondary">
+          {highlights.map((item) => (
+            <li class="flex gap-2">
+              <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-primary"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div class="mb-4 flex flex-wrap gap-1.5">
+        {project.tags.map((tag) => (
+          <span class="rounded border border-border bg-bg-primary/50 px-2 py-0.5 text-xs">{tag}</span>
+        ))}
+      </div>
+
+      {project.certificate && certificateFull && (
+        <a
+          href={certificateFull.src}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group/cert mb-4 flex items-center gap-3 rounded-xl border border-border bg-bg-primary/40 p-2 transition-colors hover:border-accent-primary/50"
+        >
+          <Image
+            src={project.certificate.src}
+            alt={project.certificate.alt[lang]}
+            width={240}
+            class="h-16 w-24 shrink-0 rounded-md object-cover object-top"
+          />
+          <span class="text-sm font-medium text-accent-primary group-hover/cert:underline">{labels.certificate[lang]}</span>
+        </a>
+      )}
+
+      {project.repoUrl && (
+        <a
+          href={project.repoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-xl bg-accent-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-primary/90"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+          {repoLabel}
+        </a>
+      )}
+    </div>
+
+    {project.featured && <ArchitectureDiagram lang={lang} />}
+  </div>
+</article>

@@ -1,0 +1,47 @@
+---
+import { getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+const labels: Record<string, string> = {
+  es: 'visitas',
+  en: 'views',
+  ca: 'visites',
+};
+
+// En local no hay API: se muestra un número de ejemplo para ver el diseño.
+const isDev = import.meta.env.DEV;
+const sample = new Intl.NumberFormat(lang).format(1234);
+---
+
+<div
+  id="visit-counter"
+  class="mb-8 flex items-center justify-center gap-1.5 text-sm text-text-secondary"
+  data-enabled={isDev ? 'false' : 'true'}
+  data-lang={lang}
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+  <span id="count" class="font-medium text-text-primary">{isDev ? sample : '...'}</span>
+  <span>{labels[lang] ?? labels.es}</span>
+</div>
+
+<script>
+  const counter = document.getElementById('visit-counter');
+  const countEl = document.getElementById('count');
+
+  if (counter && countEl && counter.dataset.enabled === 'true') {
+    const format = new Intl.NumberFormat(counter.dataset.lang);
+    // Una visita por sesión de navegador: si ya contó, solo se lee el valor.
+    const alreadyCounted = sessionStorage.getItem('visit_counted') !== null;
+
+    fetch('/api/visits', { method: alreadyCounted ? 'GET' : 'POST' })
+      .then((r) => r.json())
+      .then((data) => {
+        countEl.textContent = format.format(data.count);
+        sessionStorage.setItem('visit_counted', 'true');
+      })
+      .catch(() => {
+        counter.style.display = 'none';
+      });
+  }
+</script>

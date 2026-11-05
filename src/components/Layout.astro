@@ -1,0 +1,111 @@
+---
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import { getLangFromUrl } from '../i18n/utils';
+import { ui } from '../i18n/ui';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const { title = ui[lang].meta.title, description = ui[lang].meta.description } = Astro.props;
+
+const siteUrl = 'https://paumassales.dev';
+const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
+const locales = ['es', 'en', 'ca'];
+
+const personSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Pau Mas Sales",
+  "url": siteUrl,
+  "email": "paumassa06@gmail.com",
+  "jobTitle": "Junior Systems & Cloud Engineer",
+  "description": description,
+  "knowsLanguage": ["es", "ca", "en"],
+  "sameAs": [
+    "https://www.linkedin.com/in/pau-mas-sales-7406pms"
+  ],
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "CFGS Administración de Sistemas Informáticos en Red",
+      "credentialCategory": "Degree",
+      "educationalLevel": "Higher National Certificate"
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "AWS Academy Cloud Foundations",
+      "credentialCategory": "Certification",
+      "recognizedBy": { "@type": "Organization", "name": "Amazon Web Services" }
+    }
+  ]
+});
+---
+
+<!doctype html>
+<html lang={lang} class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Pau Mas Sales" />
+    <title>{title}</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <link rel="canonical" href={canonicalUrl} />
+
+    {locales.map((locale) => (
+      <link
+        rel="alternate"
+        hreflang={locale}
+        href={`${siteUrl}/${locale}/${Astro.url.pathname.split('/').slice(2).join('/')}`}
+      />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/es/${Astro.url.pathname.split('/').slice(2).join('/')}`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : lang === 'ca' ? 'ca_ES' : 'en_US'} />
+    <meta property="og:site_name" content="Pau Mas Sales" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={personSchema} />
+
+    <script is:inline>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'light') document.documentElement.classList.remove('dark');
+    </script>
+  </head>
+  <body class="min-h-screen bg-bg-primary text-text-primary">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-accent-primary focus:px-4 focus:py-2 focus:text-white"
+    >
+      Skip to content
+    </a>
+
+    <Header />
+    <main id="main-content" class="container mx-auto px-4 py-8">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,32 @@
+---
+import { getLangFromUrl, languages } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<select
+  id="lang-switcher"
+  aria-label="Change language"
+  class="rounded-md border border-border bg-bg-secondary px-2 py-1 text-sm text-text-primary hover:border-accent-primary transition-colors"
+>
+  {
+    Object.entries(languages).map(([code]) => (
+      <option value={code} selected={code === lang}>
+        {code.toUpperCase()}
+      </option>
+    ))
+  }
+</select>
+
+<script>
+  const select = document.getElementById('lang-switcher') as HTMLSelectElement;
+  select.addEventListener('change', (e) => {
+    const target = e.target as HTMLSelectElement;
+    const newLang = target.value;
+    const currentPath = window.location.pathname;
+    const pathParts = currentPath.split('/');
+    pathParts[1] = newLang;
+    const newPath = pathParts.join('/');
+    window.location.href = newPath;
+  });
+</script>

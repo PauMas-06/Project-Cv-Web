@@ -1,0 +1,263 @@
+---
+import { Image } from 'astro:assets';
+import profilePhoto from '../assets/pau.jpg';
+import { cv } from '../data/cv';
+import type { Locale } from '../data/projects';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const data = cv[lang];
+const { labels, contact } = data;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Pau Mas Sales — CV</title>
+  </head>
+  <body>
+    <main class="page">
+      <div class="band"></div>
+      <header class="head">
+        <h1>Pau Mas Sales</h1>
+        <p class="headline">{data.headline}</p>
+      </header>
+      <Image src={profilePhoto} alt="Pau Mas Sales" width={400} height={400} class="photo" />
+
+      <div class="body">
+        <aside class="left">
+          <ul class="contact">
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3z M3 5l9 7 9-7" /></svg>
+              <span>{contact.email}</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
+              <span>{contact.location}</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1 M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1" /></svg>
+              <span>{contact.linkedinLabel}</span>
+            </li>
+          </ul>
+
+          <h2>{labels.profile}</h2>
+          <p class="profile">{data.profile}</p>
+
+          <h2>{labels.skills}</h2>
+          <ul class="skills">
+            {data.skills.filter((g) => g.items.length > 0).map((g) => (
+              <li><strong>{g.label}:</strong> {g.items.join(', ')}</li>
+            ))}
+            {data.printExtras.map((x) => <li>{x}</li>)}
+            <li>{data.languagesLine}</li>
+          </ul>
+        </aside>
+
+        <section class="right">
+          <h2>{labels.education}</h2>
+          {data.education.filter((e) => !e.webOnly).map((e) => (
+            <article class="entry">
+              <h3 class="caps">{e.title}</h3>
+              {e.place && <p class="place">{e.place}</p>}
+              <p class="period">{e.period}</p>
+            </article>
+          ))}
+
+          <h2>{labels.experience}</h2>
+          {data.experience.map((j) => (
+            <article class="entry">
+              <h3>{j.title}</h3>
+              {j.place && <p class="place plain">{j.place}</p>}
+              <p class="period">{j.period}</p>
+              {j.bullets && <ul class="bullets">{j.bullets.map((b) => <li>{b}</li>)}</ul>}
+            </article>
+          ))}
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+  .page {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+    background: #fff;
+    color: #444;
+    font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
+    font-size: 10.2pt;
+    line-height: 1.55;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .band {
+    position: absolute;
+    top: 9mm;
+    left: 0;
+    width: 152mm;
+    height: 44mm;
+    background: #d9d9d9;
+  }
+  .head {
+    position: absolute;
+    top: 21mm;
+    left: 12mm;
+    width: 142mm;
+  }
+  .head h1 {
+    margin: 0;
+    font-size: 28pt;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: #3d3d3d;
+  }
+  .headline {
+    margin: 5mm 0 0;
+    font-size: 10pt;
+    font-weight: 700;
+    color: #333;
+  }
+  .photo {
+    position: absolute;
+    top: 3mm;
+    right: 7mm;
+    width: 46mm;
+    height: 46mm;
+    object-fit: cover;
+    border-radius: 7mm;
+    border: 1.2mm solid #d9d9d9;
+    background: #fff;
+  }
+  .body {
+    position: absolute;
+    top: 64mm;
+    bottom: 9mm;
+    left: 10mm;
+    right: 10mm;
+    display: grid;
+    grid-template-columns: 80mm 1fr;
+  }
+  .left {
+    padding-right: 7mm;
+  }
+  .right {
+    padding-left: 9mm;
+    border-left: 0.35mm solid #555;
+  }
+  h2 {
+    margin: 0 0 4mm;
+    font-size: 15.5pt;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #111;
+  }
+  .left h2:not(:first-of-type) {
+    margin-top: 10mm;
+  }
+  .right h2:not(:first-of-type) {
+    margin-top: 10mm;
+  }
+  .contact {
+    margin: 0 0 9mm;
+    padding: 0;
+    list-style: none;
+  }
+  .contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: 3mm;
+    margin-bottom: 3mm;
+    font-size: 10pt;
+    overflow-wrap: anywhere;
+  }
+  .contact svg {
+    flex: none;
+    width: 4.6mm;
+    height: 4.6mm;
+    margin-top: 0.4mm;
+    fill: none;
+    stroke: #444;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .profile {
+    margin: 0;
+    font-size: 10pt;
+    color: #555;
+  }
+  .skills {
+    margin: 0;
+    padding-left: 4.5mm;
+    font-size: 9.8pt;
+    color: #555;
+  }
+  .skills li {
+    margin-bottom: 3mm;
+  }
+  .skills strong {
+    color: #333;
+  }
+  .entry {
+    margin-bottom: 7mm;
+  }
+  .entry h3 {
+    margin: 0;
+    font-size: 10.8pt;
+    font-weight: 700;
+    color: #3d3d3d;
+  }
+  .entry h3.caps {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 10.2pt;
+  }
+  .place {
+    margin: 1mm 0 0;
+    font-size: 9.6pt;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #777;
+  }
+  .place.plain {
+    letter-spacing: 0;
+    text-transform: none;
+    color: #555;
+    font-weight: 700;
+  }
+  .period {
+    margin: 1mm 0 0;
+    font-size: 9.6pt;
+    color: #666;
+  }
+  .bullets {
+    margin: 2.5mm 0 0;
+    padding-left: 4.5mm;
+    font-size: 9.8pt;
+    color: #555;
+  }
+  .bullets li {
+    margin-bottom: 1.8mm;
+  }
+</style>
