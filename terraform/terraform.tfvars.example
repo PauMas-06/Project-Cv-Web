@@ -1,3 +1,5 @@
 domain_name        = "paumassales.dev"
 github_repo        = "PauMas-06/Project-Cv-Web"
+github_owner_id    = "247359483"
+github_repo_id     = "1447045040"
 budget_alert_email = "tu-email@ejemplo.com"

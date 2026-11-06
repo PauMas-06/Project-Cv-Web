@@ -4,6 +4,13 @@ resource "aws_iam_openid_connect_provider" "github" {
   client_id_list = ["sts.amazonaws.com"]
 }
 
+locals {
+  github_owner = split("/", var.github_repo)[0]
+  github_name  = split("/", var.github_repo)[1]
+  # Formato del claim sub de GitHub: repo:usuario@id/repo@id:ref:refs/heads/main
+  github_oidc_sub = "repo:${local.github_owner}@${var.github_owner_id}/${local.github_name}@${var.github_repo_id}:ref:refs/heads/main"
+}
+
 resource "aws_iam_role" "github_actions_deploy" {
   name = "${var.project_name}-github-deploy"
 
@@ -17,7 +24,7 @@ resource "aws_iam_role" "github_actions_deploy" {
       Condition = {
         StringEquals = {
           "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-          "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:ref:refs/heads/main"
+          "token.actions.githubusercontent.com:sub" = local.github_oidc_sub
         }
       }
     }]

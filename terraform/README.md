@@ -31,6 +31,7 @@ aws s3api put-public-access-block --bucket paumassales-terraform-state \
 
 ```bash
 cp terraform.tfvars.example terraform.tfvars   # y rellenar los valores
+# github_owner_id y github_repo_id: campos owner.id e id de https://api.github.com/repos/<usuario>/<repo>
 terraform init
 terraform plan
 terraform apply
