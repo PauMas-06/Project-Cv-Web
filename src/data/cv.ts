@@ -35,7 +35,7 @@ export interface CvData {
     languages: string;
   };
   headline: string;
-  contact: { email: string; location: string; linkedinUrl: string; linkedinLabel: string };
+  contact: { email: string; location: string; linkedinUrl: string; linkedinLabel: string; websiteUrl: string; websiteLabel: string };
   profile: string;
   // Solo web: el Extracto de LinkedIn, por párrafos.
   about: string[];
@@ -57,6 +57,8 @@ const contact = {
   location: 'Barcelona',
   linkedinUrl: 'https://www.linkedin.com/in/pau-mas-sales-7406pms',
   linkedinLabel: 'linkedin.com/in/pau-mas-sales-7406pms',
+  websiteUrl: 'https://paumassales.dev',
+  websiteLabel: 'paumassales.dev',
 };
 
 export const cv: Record<Locale, CvData> = {
