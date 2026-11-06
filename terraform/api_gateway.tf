@@ -9,9 +9,10 @@ resource "aws_apigatewayv2_stage" "default" {
   name        = "$default"
   auto_deploy = true
 
+  # Límite global (todas las IPs juntas): sobra para una web personal y acota el coste si alguien abusa.
   default_route_settings {
-    throttling_burst_limit = 10
-    throttling_rate_limit  = 5
+    throttling_burst_limit = 5
+    throttling_rate_limit  = 2
   }
 }
 
