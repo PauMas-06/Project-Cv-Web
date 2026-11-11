@@ -18,7 +18,9 @@ const toneClass: Record<Props['tone'], string> = {
 };
 ---
 
-<div class="flex items-center gap-3 rounded-xl border border-border bg-bg-secondary px-3 py-2.5 shadow-sm">
+<div
+  class="flex items-center gap-3 rounded-xl border border-border bg-bg-secondary px-3 py-2.5 shadow-sm"
+>
   <div class={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${toneClass[tone]}`}>
     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d={icon}></path>

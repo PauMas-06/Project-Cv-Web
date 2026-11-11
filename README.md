@@ -54,6 +54,8 @@ Requiere Node.js 22.
 npm install
 npm run dev          # servidor en http://localhost:4321
 npm run check        # comprobación de tipos (astro check)
+npm run lint         # ESLint (también se ejecuta en el CI)
+npm run format       # formatea el código con Prettier
 npm run build        # compila en dist/
 ```
 

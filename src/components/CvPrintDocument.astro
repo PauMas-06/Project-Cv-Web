@@ -33,19 +33,33 @@ const { labels, contact } = data;
         <aside class="left">
           <ul class="contact">
             <li>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3z M3 5l9 7 9-7" /></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path d="M3 5h18v14H3z M3 5l9 7 9-7"></path></svg
+              >
               <span>{contact.email}</span>
             </li>
             <li>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"></path><circle
+                  cx="12"
+                  cy="10"
+                  r="2.5"></circle></svg
+              >
               <span>{contact.location}</span>
             </li>
             <li>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1 M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1" /></svg>
-              <span>{contact.linkedinLabel}</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path
+                  d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1 M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"
+                ></path></svg
+              >
+              <a href={contact.linkedinUrl}>{contact.linkedinLabel}</a>
             </li>
             <li>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18 M12 3c3 3 3 15 0 18 M12 3c-3 3-3 15 0 18" /></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><circle cx="12" cy="12" r="9"></circle><path
+                  d="M3 12h18 M12 3c3 3 3 15 0 18 M12 3c-3 3-3 15 0 18"></path></svg
+              >
               <a href={contact.websiteUrl}>{contact.websiteLabel}</a>
             </li>
           </ul>
@@ -55,9 +69,15 @@ const { labels, contact } = data;
 
           <h2>{labels.skills}</h2>
           <ul class="skills">
-            {data.skills.filter((g) => g.items.length > 0).map((g) => (
-              <li><strong>{g.label}:</strong> {g.items.join(', ')}</li>
-            ))}
+            {
+              data.skills
+                .filter((g) => g.items.length > 0)
+                .map((g) => (
+                  <li>
+                    <strong>{g.label}:</strong> {g.items.join(', ')}
+                  </li>
+                ))
+            }
             {data.printExtras.map((x) => <li>{x}</li>)}
             <li>{data.languagesLine}</li>
           </ul>
@@ -65,31 +85,47 @@ const { labels, contact } = data;
 
         <section class="right">
           <h2>{labels.education}</h2>
-          {data.education.filter((e) => !e.webOnly).map((e) => (
-            <article class="entry">
-              <h3 class="caps">{e.title}</h3>
-              {e.place && <p class="place">{e.place}</p>}
-              <p class="period">{e.period}</p>
-            </article>
-          ))}
+          {
+            data.education
+              .filter((e) => !e.webOnly)
+              .map((e) => (
+                <article class="entry">
+                  <h3 class="caps">{e.title}</h3>
+                  {e.place && <p class="place">{e.place}</p>}
+                  <p class="period">{e.period}</p>
+                </article>
+              ))
+          }
 
           <h2>{labels.experience}</h2>
-          {data.experience.map((j) => (
-            <article class="entry">
-              <h3>{j.title}</h3>
-              {j.place && <p class="place plain">{j.place}</p>}
-              <p class="period">{j.period}</p>
-              {j.bullets && <ul class="bullets">{j.bullets.map((b) => <li>{b}</li>)}</ul>}
-            </article>
-          ))}
+          {
+            data.experience.map((j) => (
+              <article class="entry">
+                <h3>{j.title}</h3>
+                {j.place && <p class="place plain">{j.place}</p>}
+                <p class="period">{j.period}</p>
+                {j.bullets && (
+                  <ul class="bullets">
+                    {j.bullets.map((b) => (
+                      <li>{b}</li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            ))
+          }
 
           {data.certifications.some((c) => c.print) && <h2>{labels.certifications}</h2>}
-          {data.certifications.filter((c) => c.print).map((c) => (
-            <article class="entry">
-              <h3>{c.title}</h3>
-              <p class="period">{c.detail}</p>
-            </article>
-          ))}
+          {
+            data.certifications
+              .filter((c) => c.print)
+              .map((c) => (
+                <article class="entry">
+                  <h3>{c.title}</h3>
+                  <p class="period">{c.detail}</p>
+                </article>
+              ))
+          }
         </section>
       </div>
     </main>

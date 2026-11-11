@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* dark: sigue la clase .dark del <html> (el botón de tema), no la preferencia del sistema. */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -11,7 +11,7 @@
   --color-accent-primary: #3b82f6;
   --color-accent-secondary: #10b981;
   --color-border: #262626;
-  
+
   --font-sans: 'Inter Variable', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -45,7 +45,9 @@ body {
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   line-height: 1.6;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 ::-webkit-scrollbar {

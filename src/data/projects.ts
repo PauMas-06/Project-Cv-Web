@@ -63,7 +63,7 @@ export const projects: Project[] = [
       ca: [
         "Infraestructura com a codi amb Terraform: el bucket, la distribució CloudFront, el certificat, els registres DNS, l'API, la base de dades, els permisos i les alertes de cost es creen i es versionen des del repositori.",
         'Web estàtica en un bucket S3 privat, accessible només a través de CloudFront. HTTPS amb certificat ACM, capçaleres de seguretat i redireccions (idioma, www) resoltes a la vora amb una CloudFront Function.',
-        "Comptador de visites serverless: API Gateway, Lambda (Node.js) i DynamoDB, servits sota el mateix domini a /api i amb límit de peticions.",
+        'Comptador de visites serverless: API Gateway, Lambda (Node.js) i DynamoDB, servits sota el mateix domini a /api i amb límit de peticions.',
         "CI/CD amb GitHub Actions i OIDC: cada push a main compila, desplega a S3 i invalida la memòria cau de CloudFront, sense desar cap clau d'AWS.",
         'Bones pràctiques: permisos de mínim privilegi, estat de Terraform remot a S3 amb bloqueig i un pressupost amb alertes per vigilar el cost.',
       ],

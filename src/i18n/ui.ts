@@ -14,12 +14,9 @@ export const ui = {
     },
     common: {
       downloadCv: 'Descargar CV',
-      themeToggle: 'Cambiar tema',
-      language: 'Idioma',
     },
     footer: {
       rights: 'Todos los derechos reservados',
-      madeBy: 'Hecho con',
     },
     meta: {
       title: 'Pau Mas Sales — Cloud & DevOps',
@@ -35,12 +32,9 @@ export const ui = {
     },
     common: {
       downloadCv: 'Download CV',
-      themeToggle: 'Toggle theme',
-      language: 'Language',
     },
     footer: {
       rights: 'All rights reserved',
-      madeBy: 'Made with',
     },
     meta: {
       title: 'Pau Mas Sales — Cloud & DevOps',
@@ -56,12 +50,9 @@ export const ui = {
     },
     common: {
       downloadCv: 'Descarregar CV',
-      themeToggle: 'Canviar tema',
-      language: 'Idioma',
     },
     footer: {
       rights: 'Tots els drets reservats',
-      madeBy: 'Fet amb',
     },
     meta: {
       title: 'Pau Mas Sales — Cloud & DevOps',

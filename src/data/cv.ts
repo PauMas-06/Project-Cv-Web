@@ -37,7 +37,14 @@ export interface CvData {
     languages: string;
   };
   headline: string;
-  contact: { email: string; location: string; linkedinUrl: string; linkedinLabel: string; websiteUrl: string; websiteLabel: string };
+  contact: {
+    email: string;
+    location: string;
+    linkedinUrl: string;
+    linkedinLabel: string;
+    websiteUrl: string;
+    websiteLabel: string;
+  };
   profile: string;
   // Solo web: el Extracto de LinkedIn, por párrafos.
   about: string[];
@@ -183,7 +190,11 @@ export const cv: Record<Locale, CvData> = {
         ],
       },
       { label: 'Redes', items: ['TCP/IP', 'DNS', 'DHCP', 'VLANs', 'Cisco Packet Tracer'] },
-      { label: 'Programación', items: ['Python', 'Bash', 'Git', 'VS Code'], webItems: ['C', 'PowerShell'] },
+      {
+        label: 'Programación',
+        items: ['Python', 'Bash', 'Git', 'VS Code'],
+        webItems: ['C', 'PowerShell'],
+      },
       { label: 'Desarrollo web', items: ['PHP', 'HTML', 'CSS', 'XML', 'JSON'] },
       { label: 'Bases de datos', items: ['PostgreSQL', 'MySQL', 'MariaDB'] },
       {
@@ -373,7 +384,11 @@ export const cv: Record<Locale, CvData> = {
         ],
       },
       { label: 'Networking', items: ['TCP/IP', 'DNS', 'DHCP', 'VLANs', 'Cisco Packet Tracer'] },
-      { label: 'Programming', items: ['Python', 'Bash', 'Git', 'VS Code'], webItems: ['C', 'PowerShell'] },
+      {
+        label: 'Programming',
+        items: ['Python', 'Bash', 'Git', 'VS Code'],
+        webItems: ['C', 'PowerShell'],
+      },
       { label: 'Web development', items: ['PHP', 'HTML', 'CSS', 'XML', 'JSON'] },
       { label: 'Databases', items: ['PostgreSQL', 'MySQL', 'MariaDB'] },
       {
@@ -388,7 +403,12 @@ export const cv: Record<Locale, CvData> = {
       {
         label: 'Soft skills',
         items: [],
-        webItems: ['Organization and planning', 'Problem solving', 'Fast learning', 'Peer learning'],
+        webItems: [
+          'Organization and planning',
+          'Problem solving',
+          'Fast learning',
+          'Peer learning',
+        ],
       },
     ],
     printExtras: ['AWS GameDay National Championship finalist (official certificate)'],
@@ -518,7 +538,7 @@ export const cv: Record<Locale, CvData> = {
         period: 'Juny 2026',
         detail: 'Resultat: Apte',
         description:
-          "Bootcamp intensiu de programació de 26 dies i procés de selecció per accedir al programa principal de 42 Barcelona. Aprenentatge entre iguals, sense instructors, resolent reptes de programació de dificultat creixent, principalment en C. Àrees: programació en C, Shell scripting, algorismes, revisió de codi entre companys i entorn Unix/Linux.",
+          'Bootcamp intensiu de programació de 26 dies i procés de selecció per accedir al programa principal de 42 Barcelona. Aprenentatge entre iguals, sense instructors, resolent reptes de programació de dificultat creixent, principalment en C. Àrees: programació en C, Shell scripting, algorismes, revisió de codi entre companys i entorn Unix/Linux.',
         webOnly: true,
       },
       {
@@ -558,7 +578,11 @@ export const cv: Record<Locale, CvData> = {
         ],
       },
       { label: 'Xarxes', items: ['TCP/IP', 'DNS', 'DHCP', 'VLANs', 'Cisco Packet Tracer'] },
-      { label: 'Programació', items: ['Python', 'Bash', 'Git', 'VS Code'], webItems: ['C', 'PowerShell'] },
+      {
+        label: 'Programació',
+        items: ['Python', 'Bash', 'Git', 'VS Code'],
+        webItems: ['C', 'PowerShell'],
+      },
       { label: 'Desenvolupament web', items: ['PHP', 'HTML', 'CSS', 'XML', 'JSON'] },
       { label: 'Bases de dades', items: ['PostgreSQL', 'MySQL', 'MariaDB'] },
       {

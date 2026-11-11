@@ -17,40 +17,40 @@ const { title = ui[lang].meta.title, description = ui[lang].meta.description } =
 const siteUrl = 'https://paumassales.dev';
 const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
 const locales = ['es', 'en', 'ca'];
-const skipLabel = { es: 'Saltar al contenido', en: 'Skip to content', ca: 'Salta al contingut' }[lang];
+const skipLabel = { es: 'Saltar al contenido', en: 'Skip to content', ca: 'Salta al contingut' }[
+  lang
+];
 
 const personSchema = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Pau Mas Sales",
-  "url": siteUrl,
-  "email": "paumassa06@gmail.com",
-  "jobTitle": "Junior Systems & Cloud Engineer",
-  "description": description,
-  "knowsLanguage": ["es", "ca", "en"],
-  "sameAs": [
-    "https://www.linkedin.com/in/pau-mas-sales-7406pms"
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Pau Mas Sales',
+  url: siteUrl,
+  email: 'paumassa06@gmail.com',
+  jobTitle: 'Junior Systems & Cloud Engineer',
+  description: description,
+  knowsLanguage: ['es', 'ca', 'en'],
+  sameAs: ['https://www.linkedin.com/in/pau-mas-sales-7406pms'],
+  hasCredential: [
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'CFGS Administración de Sistemas Informáticos en Red',
+      credentialCategory: 'Degree',
+      educationalLevel: 'Higher National Certificate',
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'AWS Certified Cloud Practitioner',
+      credentialCategory: 'Certification',
+      recognizedBy: { '@type': 'Organization', name: 'Amazon Web Services' },
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'AWS Academy Cloud Foundations',
+      credentialCategory: 'Certification',
+      recognizedBy: { '@type': 'Organization', name: 'Amazon Web Services' },
+    },
   ],
-  "hasCredential": [
-    {
-      "@type": "EducationalOccupationalCredential",
-      "name": "CFGS Administración de Sistemas Informáticos en Red",
-      "credentialCategory": "Degree",
-      "educationalLevel": "Higher National Certificate"
-    },
-    {
-      "@type": "EducationalOccupationalCredential",
-      "name": "AWS Certified Cloud Practitioner",
-      "credentialCategory": "Certification",
-      "recognizedBy": { "@type": "Organization", "name": "Amazon Web Services" }
-    },
-    {
-      "@type": "EducationalOccupationalCredential",
-      "name": "AWS Academy Cloud Foundations",
-      "credentialCategory": "Certification",
-      "recognizedBy": { "@type": "Organization", "name": "Amazon Web Services" }
-    }
-  ]
 });
 ---
 
@@ -68,32 +68,45 @@ const personSchema = JSON.stringify({
 
     <link rel="canonical" href={canonicalUrl} />
 
-    {locales.map((locale) => (
-      <link
-        rel="alternate"
-        hreflang={locale}
-        href={`${siteUrl}/${locale}/${Astro.url.pathname.split('/').slice(2).join('/')}`}
-      />
-    ))}
-    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/es/${Astro.url.pathname.split('/').slice(2).join('/')}`} />
+    {
+      locales.map((locale) => (
+        <link
+          rel="alternate"
+          hreflang={locale}
+          href={`${siteUrl}/${locale}/${Astro.url.pathname.split('/').slice(2).join('/')}`}
+        />
+      ))
+    }
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={`${siteUrl}/es/${Astro.url.pathname.split('/').slice(2).join('/')}`}
+    />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : lang === 'ca' ? 'ca_ES' : 'en_US'} />
+    <meta
+      property="og:locale"
+      content={lang === 'es' ? 'es_ES' : lang === 'ca' ? 'ca_ES' : 'en_US'}
+    />
     <meta property="og:site_name" content="Pau Mas Sales" />
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
+    {/* Seguro: personSchema es un JSON.stringify de datos propios, no de entrada del usuario. */}
+    {/* eslint-disable-next-line astro/no-set-html-directive */}
     <script type="application/ld+json" set:html={personSchema} />
 
     <!-- Inline y en el head para aplicar el tema antes de pintar la página (evita el parpadeo). -->
     <script is:inline>
       const saved = localStorage.getItem('theme');
-      const light = saved ? saved === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
+      const light = saved
+        ? saved === 'light'
+        : window.matchMedia('(prefers-color-scheme: light)').matches;
       document.documentElement.classList.toggle('dark', !light);
     </script>
   </head>

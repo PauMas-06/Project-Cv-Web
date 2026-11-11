@@ -28,7 +28,11 @@ terraform/*.tfstate
 terraform/*.tfstate.*
 terraform/*.tfvars
 terraform/lambda_visits.zip
+terraform/tfplan
 
 # documentos de trabajo privados (no se suben)
 .docs/
-terraform/tfplan
+
+# instrucciones locales para asistentes de IA
+AGENTS.md
+CLAUDE.md
