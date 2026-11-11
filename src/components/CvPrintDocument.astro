@@ -82,6 +82,14 @@ const { labels, contact } = data;
               {j.bullets && <ul class="bullets">{j.bullets.map((b) => <li>{b}</li>)}</ul>}
             </article>
           ))}
+
+          {data.certifications.some((c) => c.print) && <h2>{labels.certifications}</h2>}
+          {data.certifications.filter((c) => c.print).map((c) => (
+            <article class="entry">
+              <h3>{c.title}</h3>
+              <p class="period">{c.detail}</p>
+            </article>
+          ))}
         </section>
       </div>
     </main>
@@ -108,7 +116,7 @@ const { labels, contact } = data;
     color: #444;
     font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
     font-size: 10.2pt;
-    line-height: 1.55;
+    line-height: 1.5;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -154,8 +162,8 @@ const { labels, contact } = data;
   }
   .body {
     position: absolute;
-    top: 64mm;
-    bottom: 9mm;
+    top: 61mm;
+    bottom: 8mm;
     left: 10mm;
     right: 10mm;
     display: grid;
@@ -177,13 +185,13 @@ const { labels, contact } = data;
     color: #111;
   }
   .left h2:not(:first-of-type) {
-    margin-top: 10mm;
+    margin-top: 7mm;
   }
   .right h2:not(:first-of-type) {
-    margin-top: 10mm;
+    margin-top: 7mm;
   }
   .contact {
-    margin: 0 0 9mm;
+    margin: 0 0 7mm;
     padding: 0;
     list-style: none;
   }
@@ -222,13 +230,13 @@ const { labels, contact } = data;
     color: #555;
   }
   .skills li {
-    margin-bottom: 3mm;
+    margin-bottom: 2mm;
   }
   .skills strong {
     color: #333;
   }
   .entry {
-    margin-bottom: 7mm;
+    margin-bottom: 5mm;
   }
   .entry h3 {
     margin: 0;
@@ -266,6 +274,6 @@ const { labels, contact } = data;
     color: #555;
   }
   .bullets li {
-    margin-bottom: 1.8mm;
+    margin-bottom: 1.2mm;
   }
 </style>

@@ -21,6 +21,8 @@ export interface CvHighlight {
   title: string;
   detail: string;
   description?: string;
+  // Sale también en el PDF (columna derecha).
+  print?: boolean;
 }
 
 export interface CvData {
@@ -213,6 +215,12 @@ export const cv: Record<Locale, CvData> = {
     ],
     certifications: [
       {
+        icon: '🏅',
+        title: 'AWS Certified Cloud Practitioner',
+        print: true,
+        detail: 'Amazon Web Services (AWS) · Noviembre 2026',
+      },
+      {
         icon: '☁️',
         title: 'AWS Cloud Quest: Cloud Practitioner – Training Badge',
         detail: 'Amazon Web Services (AWS) · Octubre 2026',
@@ -391,6 +399,12 @@ export const cv: Record<Locale, CvData> = {
       { name: 'English', level: 'B1 – High Intermediate' },
     ],
     certifications: [
+      {
+        icon: '🏅',
+        title: 'AWS Certified Cloud Practitioner',
+        print: true,
+        detail: 'Amazon Web Services (AWS) · November 2026',
+      },
       {
         icon: '☁️',
         title: 'AWS Cloud Quest: Cloud Practitioner – Training Badge',
@@ -575,6 +589,12 @@ export const cv: Record<Locale, CvData> = {
       { name: 'Anglès', level: 'B1 – High Intermediate' },
     ],
     certifications: [
+      {
+        icon: '🏅',
+        title: 'AWS Certified Cloud Practitioner',
+        print: true,
+        detail: 'Amazon Web Services (AWS) · Novembre 2026',
+      },
       {
         icon: '☁️',
         title: 'AWS Cloud Quest: Cloud Practitioner – Training Badge',
