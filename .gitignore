@@ -5,22 +5,11 @@ dist/
 
 # dependencies
 node_modules/
-
-# logs
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
 
 # environment variables
 .env
 .env.production
-
-# macOS-specific files
-.DS_Store
-
-# jetbrains setting folder
-.idea/
 
 # terraform
 terraform/.terraform/
@@ -29,10 +18,3 @@ terraform/*.tfstate.*
 terraform/*.tfvars
 terraform/lambda_visits.zip
 terraform/tfplan
-
-# documentos de trabajo privados (no se suben)
-.docs/
-
-# instrucciones locales para asistentes de IA
-AGENTS.md
-CLAUDE.md
